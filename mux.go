@@ -83,6 +83,9 @@ import (
 //		}
 //	}
 //
+
+var NotFound = http.NotFound
+
 // When "Method Not Allowed":
 //
 // Pat knows what methods are allowed given a pattern and a URI. For
@@ -125,7 +128,7 @@ func (p *PatternServeMux) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(allowed) == 0 {
-		http.NotFound(w, r)
+		NotFound(w, r)
 		return
 	}
 
