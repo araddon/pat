@@ -2,6 +2,7 @@
 package pat
 
 import (
+	"log"
 	"net/http"
 	"net/url"
 	"strings"
@@ -84,7 +85,10 @@ import (
 //	}
 //
 
-var NotFound = http.NotFound
+var (
+	NotFound        = http.NotFound
+	RedirectHandler = http.RedirectHandler
+)
 
 // When "Method Not Allowed":
 //
@@ -175,7 +179,8 @@ func (p *PatternServeMux) Add(meth, pat string, h http.Handler) {
 
 	n := len(pat)
 	if n > 0 && pat[n-1] == '/' {
-		p.Add(meth, pat[:n-1], http.RedirectHandler(pat, http.StatusMovedPermanently))
+		log.Println("adding redirect handler for " + pat)
+		p.Add(meth, pat[:n-1], RedirectHandler(pat, http.StatusMovedPermanently))
 	}
 }
 
